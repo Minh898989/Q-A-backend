@@ -4,6 +4,7 @@ const http = require('http');
 const cors = require('cors');
 const authRoutes = require('./src/routes/authRoutes');
 const usersRoutes = require('./src/routes/usersRoutes');
+const friendRoutes = require('./src/routes/friendRoutes');
 
 const app = express();
 const server = http.createServer(app); // ⚠️ Dòng này bị thiếu
@@ -17,6 +18,7 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/friend', friendRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello Express!');
