@@ -11,15 +11,16 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary,
-  params: (req, file) => {
+  params: async (req, file) => {
     const isImage = file.mimetype.startsWith("image/");
+    const isVideo = file.mimetype.startsWith("video/");
     return {
       folder: isImage ? 'chat_images' : 'chat_files',
-      allowed_formats: ['jpg', 'jpeg', 'png', 'pdf', 'docx', 'mp4', 'webm'],
-      resource_type: 'auto',
+      resource_type: isImage ? 'image' : isVideo ? 'video' : 'raw',
     };
   },
 });
+
 
 const uploadMessageFile = multer({ storage });
 

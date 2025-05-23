@@ -12,8 +12,16 @@ exports.getChatHistory = async (req, res) => {
 
 exports.sendMessage = async (req, res) => {
   const { sender_id, receiver_id, text } = req.body;
-  const image_url = req.fileType === "image" ? req.file.path : null;
-  const file_url = req.fileType === "file" ? req.file.path : null;
+  let image_url = null;
+  let file_url = null;
+
+  if (req.file) {
+    if (req.fileType === "image") {
+      image_url = req.file.path;
+    } else {
+      file_url = req.file.path;
+    }
+  }
 
 
   const time_sent = new Date();
