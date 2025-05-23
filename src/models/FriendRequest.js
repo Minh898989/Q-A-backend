@@ -78,6 +78,15 @@ const FriendRequest = {
     isFriend: !!u.isFriend,
     isPending: !!u.isPending,
   }));
+},
+async isFriend(userId1, userId2) {
+  const [rows] = await db.query(
+    `SELECT 1 FROM friend_requests
+     WHERE ((sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?))
+       AND status = 'accepted'`,
+    [userId1, userId2, userId2, userId1]
+  );
+  return rows.length > 0;
 }
 
 }
