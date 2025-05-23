@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3009;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads'));
+
 
 // Inject io vào req để dùng trong controller nếu cần
 app.use((req, res, next) => {

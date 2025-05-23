@@ -12,14 +12,14 @@ exports.getChatHistory = async (req, res) => {
 
 exports.sendMessage = async (req, res) => {
   const { sender_id, receiver_id, text } = req.body;
-  const image_url = req.fileType === "image" ? `uploads/${req.file.filename}` : null;
-  const file_url = req.fileType === "file" ? `uploads/${req.file.filename}` : null;
+  const image_url = req.fileType === "image" ? req.file.path : null;
+  const file_url = req.fileType === "file" ? req.file.path : null;
 
-  // ✅ Khởi tạo thời gian gửi
+
   const time_sent = new Date();
 
   try {
-    // ✅ Truyền time_sent vào model nếu cần lưu
+    
     const messageId = await Message.create({ sender_id, receiver_id, text, image_url, file_url, time_sent });
 
     const newMessage = {
