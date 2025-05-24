@@ -9,7 +9,7 @@ const authRoutes = require('./src/routes/authRoutes');
 const usersRoutes = require('./src/routes/usersRoutes');
 const friendRoutes = require('./src/routes/friendRoutes');
 const messageRoutes = require("./src/routes/messageRoutes");
-
+const notificationsRoutes = require("./src/routes/notificationsRoutes");
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, { cors: { origin: "*" } }); // ⚠️ Thêm socketIo
@@ -32,7 +32,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/friend', friendRoutes);
 app.use("/api/messages", messageRoutes);
-
+app.use("/api", notificationsRoutes);
 app.get('/', (req, res) => {
   res.send('Hello Express!');
 });

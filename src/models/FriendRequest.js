@@ -20,11 +20,21 @@ const FriendRequest = {
   },
 
   async respondToRequest(requestId, status) {
-    return db.query(
-      "UPDATE friend_requests SET status = ? WHERE id = ?",
-      [status, requestId]
-    );
-  },
+  // Cập nhật status
+  await db.query(
+    "UPDATE friend_requests SET status = ? WHERE id = ?",
+    [status, requestId]
+  );
+
+  // Truy vấn lại để lấy row đã cập nhật
+  const [rows] = await db.query(
+    "SELECT * FROM friend_requests WHERE id = ?",
+    [requestId]
+  );
+
+  return rows[0]; // Trả về dòng đã cập nhật
+},
+
 
   async getFriends(userId) {
     const [rows] = await db.query(
