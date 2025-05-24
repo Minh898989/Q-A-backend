@@ -1,5 +1,5 @@
 const User = require('../models/usersModel');
-
+const bcrypt = require('bcryptjs');
 exports.getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
@@ -39,7 +39,14 @@ exports.updateUser = async (req, res) => {
     if (!user)
       return res.status(404).json({ message: 'Không tìm thấy người dùng' });
 
-    const updatedUser = await User.updateById(id, req.body);
+    const updates = { ...req.body }; // QUAN TRỌNG: lấy ra req.body
+
+    if (updates.password_hash) {
+      const saltRounds = 10;
+      updates.password_hash = await bcrypt.hash(updates.password_hash, saltRounds);
+    }
+
+    const updatedUser = await User.update(id, updates);
     return res.status(200).json({ status: 'success', data: updatedUser });
   } catch (error) {
     return res.status(500).json({ status: 'error', message: error.message });
