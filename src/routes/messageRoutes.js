@@ -3,12 +3,12 @@ const router = express.Router();
 const messageController = require('../controllers/messageController');
 const { uploadMessageFile } = require('../config/cloudinaryMessage'); 
 
-
-
 router.get('/history/:userId/:friendId', messageController.getChatHistory);
 router.get('/unread/:userId', messageController.getUnreadCounts);
 router.post('/mark-as-read', messageController.markMessagesAsRead);
 router.get('/unread/total/:userId', messageController.getTotalUnreadByUser);
+
+
 
 
 router.post(

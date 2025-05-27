@@ -82,3 +82,37 @@ exports.getTotalUnreadByUser = async (req, res) => {
     res.status(500).json({ message: "Lỗi khi lấy tổng số tin nhắn chưa đọc", error: err });
   }
 };
+exports.startCall = async (req, res) => {
+  const { sender_id, receiver_id } = req.body;
+  try {
+    const result = await Message.startCall({ sender_id, receiver_id });
+
+    const newCallMessage = {
+      id: result.id,
+      sender_id,
+      receiver_id,
+      text: '[Cuộc gọi bắt đầu]',
+      call_start: result.call_start
+    };
+
+    req.io.to(`chat-${receiver_id}`).emit("newMessage", newCallMessage);
+    req.io.to(`notification-${receiver_id}`).emit("notificationUpdate");
+
+    res.json(newCallMessage);
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi khi bắt đầu cuộc gọi", error: err });
+  }
+};
+
+exports.endCall = async (req, res) => {
+  const { message_id } = req.body;
+  try {
+    const result = await Message.endCall(message_id);
+
+    req.io.emit("callEnded", { id: message_id, call_end: result.call_end });
+
+    res.json({ id: message_id, call_end: result.call_end });
+  } catch (err) {
+    res.status(500).json({ message: "Lỗi khi kết thúc cuộc gọi", error: err });
+  }
+};

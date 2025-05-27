@@ -14,6 +14,7 @@ const adminRoutes = require('./src/routes/adminRoutes');
 const resetPasswordRoutes = require("./src/routes/resetPasswordRoutes");
 const ggRoutes = require('./src/routes/ggRoutes'); 
 
+
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, { cors: { origin: "*" } }); // ⚠️ Thêm socketIo
@@ -40,6 +41,7 @@ app.use("/api", notificationsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use("/api", resetPasswordRoutes);
 app.use('/auth', ggRoutes); 
+
 
 app.get('/', (req, res) => {
   res.send('Hello Express!');
