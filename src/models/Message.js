@@ -49,27 +49,6 @@ async countTotalUnreadByUser(userId) {
   );
   return rows[0].total_unread;
 },
-async startCall({ sender_id, receiver_id }) {
-  const time_sent = new Date();
-  const call_start = time_sent;
-  const [result] = await db.query(
-    `INSERT INTO messages (sender_id, receiver_id, text, call_start, time_sent, is_read)
-     VALUES (?, ?, ?, ?, ?, FALSE)`,
-    [sender_id, receiver_id, '[Cuộc gọi bắt đầu]', call_start, time_sent]
-  );
-  return { id: result.insertId, call_start };
-},
-
-async endCall(messageId) {
-  const call_end = new Date();
-  await db.query(
-    `UPDATE messages SET call_end = ? WHERE id = ?`,
-    [call_end, messageId]
-  );
-  return { id: messageId, call_end };
-}
-
-
 
 };
 
