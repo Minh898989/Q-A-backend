@@ -72,3 +72,13 @@ exports.markMessagesAsRead = async (req, res) => {
     res.status(500).json({ message: "Lỗi khi đánh dấu đã đọc", error: err });
   }
 };
+exports.getTotalUnreadByUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const totalUnread = await Message.countTotalUnreadByUser(userId);
+    res.json({ userId, totalUnread });
+  } catch (err) {
+    console.error("❌ Lỗi khi lấy tổng số tin nhắn chưa đọc của user:", err);
+    res.status(500).json({ message: "Lỗi khi lấy tổng số tin nhắn chưa đọc", error: err });
+  }
+};
