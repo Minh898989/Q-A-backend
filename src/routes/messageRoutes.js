@@ -9,8 +9,6 @@ router.post('/mark-as-read', messageController.markMessagesAsRead);
 router.get('/unread/total/:userId', messageController.getTotalUnreadByUser);
 
 
-
-
 router.post(
   '/send',
   uploadMessageFile.single('file'), 
