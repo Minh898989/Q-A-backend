@@ -12,6 +12,7 @@ const messageRoutes = require("./src/routes/messageRoutes");
 const notificationsRoutes = require("./src/routes/notificationsRoutes");
 const adminRoutes = require('./src/routes/adminRoutes');
 const resetPasswordRoutes = require("./src/routes/resetPasswordRoutes");
+const uploadRoute = require('./src/config/cloudinaryUpload');
 const ggRoutes = require('./src/routes/ggRoutes'); 
 
 const app = express();
@@ -39,6 +40,7 @@ app.use("/api/messages", messageRoutes);
 app.use("/api", notificationsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use("/api", resetPasswordRoutes);
+app.use('/api/upload', uploadRoute);
 app.use('/auth', ggRoutes); 
 
 app.get('/', (req, res) => {
